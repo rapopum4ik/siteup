@@ -1,0 +1,11 @@
+<form method="POST" action="{{ url_for('search') }}">
+    <select name="type">
+        <option value="">Выберите тип</option>
+        <option value="rent">Аренда</option>
+        <option value="buy">Покупка</option>
+    </select>
+    <input type="number" name="rooms" placeholder="Комнаты">
+    <input type="number" name="price_min" placeholder="Мин. цена">
+    <input type="number" name="price_max" placeholder="Макс. цена">
+    <button type="submit">Поиск</button>
+</form>

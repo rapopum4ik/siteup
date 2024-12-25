@@ -1,0 +1,98 @@
+/* Общие стили */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #F5F5F5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+}
+
+.AddApartmentWrapper {
+    max-width: 600px;
+    width: 100%;
+    margin: 20px;
+    background: #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Заголовок */
+.AddApartmentHeader {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.AddApartmentTitle {
+    font-size: 28px;
+    font-weight: bold;
+    color: #855B98;
+}
+
+/* Форма */
+.StyledForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.StyledInput, .StyledTextarea, .StyledSelect {
+    background: #C186DB;
+    border: none;
+    border-radius: 35px;
+    padding: 10px 20px;
+    color: #FFFFFF;
+    font-size: 16px;
+    width: 93%;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.StyledTextarea {
+    resize: none;
+    height: 100px;
+}
+
+/* Кнопка */
+.AdminButton {
+    width: 100%
+    background: #855B98;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 35px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.AdminButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.AddButton {
+    background-color: #28A745;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .AddApartmentWrapper {
+        padding: 15px;
+    }
+
+    .AddApartmentTitle {
+        font-size: 24px;
+    }
+
+    .StyledInput, .StyledTextarea, .StyledSelect, .AdminButton {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}

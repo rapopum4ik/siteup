@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="Slide1691">
+    <div class="Group2">
+      <!-- Левая панель вкладок -->
+      <div class="VkladkiLevo">
+        <button class="KlientBox">
+          <div class="LevoKlient">Клиенты</div>
+        </button>
+        <button class="KlientBox">
+          <div class="LevoKlient">Клиенты</div>
+        </button>
+        <button class="KlientBox">
+          <div class="LevoKlient">Клиенты</div>
+        </button>
+        <button class="KlientBox">
+          <div class="LevoKlient">Клиенты</div>
+        </button>
+        {% if user_type == 'a' %}
+            <a href="{{ url_for('admin_panel', username=username) }}" class="btn btn-primary KlientBox">
+                Админ-панель
+            </a>
+        {% endif %}
+      </div>
+
+      <!-- Основное содержимое -->
+      <div class="MainContent">
+        <!-- Заголовок с логотипом и поиском -->
+        <div class="Header">
+          <div class="Logo">LOGO</div>
+          <div class="Poisk">
+            <div class="ShadowPoisk">
+                   <!-- <input class="TextPoisk"> -->
+                   <form method="POST" action="{{ url_for('search') }}" class="StyledForm">
+                        <select name="type" class="StyledSelect">
+                            <option value="">Выберите тип</option>
+                            <option value="rent">Аренда</option>
+                            <option value="buy">Покупка</option>
+                        </select>
+                        <input type="number" name="rooms" placeholder="Комнаты" class="StyledInput">
+                        <input type="number" name="price_min" placeholder="Мин. цена" class="StyledInput">
+                        <input type="number" name="price_max" placeholder="Макс. цена" class="StyledInput">
+                        <button type="submit" class="KrugPoisk">Поиск</button>
+                   </form>
+
+            </div>
+          </div>
+          <div class="ProfileIcon">
+          <img src="{{ url_for('static', filename='icon-person.svg') }}" alt="Личный кабинет">
+              <div class="dropdown">
+                {% if session.get('username') %}
+                    <!-- Если пользователь авторизован -->
+                    <a href="{{ url_for('logout') }}">Выход</a>
+                {% else %}
+                    <!-- Если пользователь не авторизован -->
+                    <form method="POST" action="{{ url_for('login') }}">
+                        <input type="text" name="username" placeholder="Логин" required>
+                        <input type="password" name="password" placeholder="Пароль" required>
+                        <button type="submit">Войти</button>
+                    </form>
+                    <p>Нет аккаунта? <a href="{{ url_for('register') }}">Регистрация</a></p>
+                {% endif %}
+              </div>
+          </div>
+        </div>
+
+        <!-- Основное окно с вкладками -->
+        <div class="OsnovnoeOkno">
+          <div class="OknUltimate"></div>
+          <div class="VkladkiArenda">
+            <div class="LainArend"></div>
+            <div class="ArendaText">Аренда</div>
+            {% for apartment in apartments_rent %}
+                <a href="{{ url_for('apartment_detail', apartment_id=apartment.id) }}" class="MainBox" style="background-image: url('{{ url_for('static', filename='uploads/' + apartment.images[0]) if apartment.images else url_for('static', filename='default_image.jpg') }}');">
+                    <h1>{{ apartment.title }}</h1>
+                        <div class="Info">
+                            <p><strong>Адрес:</strong> {{ apartment.address }}</p>
+                            <p><strong>Комнат:</strong> {{ apartment.rooms }}</p>
+                            <p><strong></strong> {{ apartment.price }} руб.</p>
+                        </div>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="VkladkiKupit">
+            <div class="LainKup"></div>
+            <div class="KupitText">Купить</div>
+            {% for apartment in apartments_buy %}
+                <a href="{{ url_for('apartment_detail', apartment_id=apartment.id) }}" class="MainBox" style="background-image: url('{{ url_for('static', filename='uploads/' + apartment.images[0]) if apartment.images else url_for('static', filename='default_image.jpg') }}');">
+                    <h1>{{ apartment.title }}</h1>
+                        <div class="Info">
+                            <p><strong>Адрес:</strong> {{ apartment.address }}</p>
+                            <p><strong>Комнат:</strong> {{ apartment.rooms }}</p>
+                            <p><strong></strong> {{ apartment.price }} руб.</p>
+                        </div>
+                </a>
+            {% endfor %}
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

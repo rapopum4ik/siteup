@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>БД</title>
+</head>
+<body>
+    <h1>Резервные копии базы данных</h1>
+    <ul>
+        {% for backup in backups %}
+        <li>
+            {{ backup }}
+            <form action="{{ url_for(backup_name=backup) }}" method="POST" style="display:inline;">
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты поиска</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles-search-result.css') }}">
+</head>
+<body>
+    <div class="SearchResultsContainer">
+        <h1 class="SearchTitle">Результаты поиска</h1>
+
+        {% if apartments %}
+            <div class="ApartmentsList">
+                {% for apartment in apartments %}
+                    <div class="ApartmentCard">
+                        <a href="{{ url_for('apartment_detail', apartment_id=apartment.id) }}">
+                            <h3 class="ApartmentTitle">{{ apartment.title }}</h3>
+                            <p class="ApartmentAddress">Адрес: {{ apartment.address }}</p>
+                            <p class="ApartmentRooms">Комнат: {{ apartment.rooms }}</p>
+                            <p class="ApartmentPrice">Цена: {{ apartment.price }} руб.</p>
+                            <p class="ApartmentDescription">Описание: {{ apartment.description }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="NoResults">Ничего не найдено по указанным критериям.</p>
+        {% endif %}
+
+        <a class="BackButton" href="{{ url_for('dashboard') }}">Вернуться к главной</a>
+    </div>
+</body>
+</html>

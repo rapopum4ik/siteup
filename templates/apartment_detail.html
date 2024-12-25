@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ apartment.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles-apartment.css') }}">
+</head>
+<body>
+    <div class="DashboardContainer">
+        <div class="Sidebar">
+            <h2>Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}">Главная</a></li>
+                    <li><a href="#">Добавить объект</a></li>
+                    <li><a href="#">Мои объекты</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="MainContent">
+            <div class="ApartmentDetails">
+                <h1>{{ apartment.title }}</h1>
+                <p><strong>Адрес:</strong> {{ apartment.address }}</p>
+                <p><strong>Количество комнат:</strong> {{ apartment.rooms }}</p>
+                <p><strong>Цена:</strong> {{ apartment.price }} руб.</p>
+                <p><strong>Тип:</strong> {{ 'Аренда' if apartment.type == 'rent' else 'Покупка' }}</p>
+                {% if apartment.description %}
+                    <p><strong>Описание:</strong> {{ apartment.description }}</p>
+                {% endif %}
+            </div>
+            <div class="ApartmentImages">
+                    {% for image in apartment.images %}
+                        <img src="{{ url_for('static', filename='uploads/' + image) }}" alt="Apartment Image">
+                    {% endfor %}
+            </div>
+            <a class="BackButton" onclick="window.history.back()">Назад</a>
+        </div>
+    </div>
+</body>
+</html>

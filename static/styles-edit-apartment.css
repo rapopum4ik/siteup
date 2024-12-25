@@ -1,0 +1,107 @@
+/* Общие стили */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #F5F5F5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Контейнер формы */
+.FormWrapper {
+    max-width: 800px;
+    width: 100%;
+    margin: 20px;
+    background: #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Заголовок */
+.FormHeader {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.FormTitle {
+    font-size: 28px;
+    font-weight: bold;
+    color: #855B98;
+}
+
+/* Стили формы */
+.FormContent {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.FormLabel {
+    font-size: 16px;
+    font-weight: 600;
+    color: #555;
+}
+
+.FormInput,
+.FormTextarea {
+    background: #C186DB;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #C186DB;
+    border-radius: 35px;
+    font-size: 16px;
+    color: #555;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.FormTextarea {
+    resize: none;
+    height: 100px;
+}
+
+/* Стили кнопки */
+.SaveButton {
+    background: #28A745;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 25px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.SaveButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .FormWrapper {
+        padding: 15px;
+    }
+
+    .FormTitle {
+        font-size: 24px;
+    }
+
+    .FormInput, .FormTextarea {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .SaveButton {
+        font-size: 14px;
+        padding: 10px;
+    }
+}

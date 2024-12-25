@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles-admin-panel.css') }}">
+</head>
+<body>
+    <div class="AdminWrapper">
+        <!-- Заголовок -->
+        <header class="AdminHeader">
+            <h1 class="AdminTitle">Админ-панель</h1>
+            <a href="{{ url_for('add_apartment') }}" class="AdminButton AddButton">Добавить квартиру</a>
+        </header>
+
+        <!-- Таблица -->
+        <div class="TableWrapper">
+            <table class="AdminTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Тип</th>
+                        <th>Цена</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for apartment in apartments %}
+                    <tr>
+                        <td>
+                            <a href="{{ url_for('apartment_detail', apartment_id=apartment.id) }}">
+                                {{ apartment["id"] }}
+                            </a>
+                        </td>
+                        <td>{{ apartment["title"] }}</td>
+                        <td>{{ apartment["type"] }}</td>
+                        <td>{{ apartment["price"] }}</td>
+                        <td class="Actions">
+                            <a href="{{ url_for('edit_apartment', id=apartment['id']) }}" class="AdminButton EditButton">Редактировать</a>
+                            <form action="{{ url_for('delete_apartment', id=apartment['id']) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="AdminButton DeleteButton">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

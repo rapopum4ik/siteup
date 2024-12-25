@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить квартиру</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles-add-apartment.css') }}">
+</head>
+<body>
+    <div class="AddApartmentWrapper">
+        <!-- Заголовок -->
+        <header class="AddApartmentHeader">
+            <h1 class="AddApartmentTitle">Добавить квартиру</h1>
+        </header>
+
+        <!-- Форма -->
+        <form method="POST" class="StyledForm AddApartmentForm" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="Название" class="StyledInput" required>
+            <input type="text" name="address" placeholder="Адрес" class="StyledInput" required>
+            <input type="number" name="rooms" placeholder="Комнаты" class="StyledInput" required>
+            <input type="number" name="price" placeholder="Цена" class="StyledInput" required>
+            <textarea name="description" placeholder="Описание" class="StyledTextarea"></textarea>
+            <select name="type" class="StyledSelect">
+                <option value="rent">Аренда</option>
+                <option value="buy">Покупка</option>
+            </select>
+            <!-- Image upload fields (up to 6 images) -->
+            <input type="file" name="images" accept="image/*" multiple class="StyledInput">
+            <button type="submit" class="AdminButton AddButton">Добавить</button>
+        </form>
+    </div>
+</body>
+</html>
