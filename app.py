@@ -9,21 +9,19 @@ import os
 
 app = Flask(__name__)
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Получаем путь к текущей директории
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-# Configure allowed file extensions and upload folder
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, 'static/uploads')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'local_database.db')}"  # Локальная БД
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Отключаем уведомления
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'local_database.db')}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = "your_secret_key"
 
 db = SQLAlchemy(app)
 
-BACKUP_DIR = os.path.join(BASE_DIR, "backups")  # Директория для резервных копий
+BACKUP_DIR = os.path.join(BASE_DIR, "backups")
 
-# Модели базы данных
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -44,22 +42,19 @@ class Apartment(db.Model):
     description = db.Column(db.Text, nullable=True)
     type = db.Column(db.String(50), nullable=False)
     title = db.Column(db.String(255), nullable=False)
-    images = db.Column(db.PickleType, default=[])  # Store images as a list of filenames (or paths)
+    images = db.Column(db.PickleType, default=[])
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def backup_database():
-    # Убедимся, что директория для бэкапов существует
     if not os.path.exists(BACKUP_DIR):
         os.makedirs(BACKUP_DIR)
 
-    # Формируем имя файла бэкапа с текущей датой и временем
     backup_file = os.path.join(
         BACKUP_DIR, f"backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.db"
     )
 
-    # Копируем базу данных
     try:
         shutil.copy(app.config['SQLALCHEMY_DATABASE_URI'][10:], backup_file)
         print(f"Бэкап базы данных создан: {backup_file}")
@@ -68,12 +63,10 @@ def backup_database():
 
 def start_scheduler():
     scheduler = BackgroundScheduler()
-    # Запускаем функцию бэкапа каждые 24 часа
-    scheduler.add_job(backup_database, 'interval', minutes=30)
+    scheduler.add_job(backup_database, 'interval', minutes=120)
     scheduler.start()
     print("Планировщик задач запущен.")
 
-# Маршруты
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -118,17 +111,14 @@ def dashboard():
     user = None
 
     if username:
-        # Попробуем найти пользователя в базе данных, если он авторизован
         user = User.query.filter_by(username=username).first()
         if not user:
             flash("Пользователь не найден!", "error")
-            session.pop('username', None)  # Удаляем невалидную сессию
+            session.pop('username', None)
 
-    # Получаем данные о квартирах
     apartments_rent = Apartment.query.filter_by(type='rent').all()
     apartments_buy = Apartment.query.filter_by(type='buy').all()
 
-    # Передаем тип пользователя (если он есть) или None
     user_type = user.type if user else None
 
     return render_template(
@@ -161,17 +151,15 @@ def admin_panel():
 def delete_apartment(id):
     apartment = Apartment.query.get_or_404(id)
 
-    # Удаление связанных фотографий
-    if apartment.images:  # Проверяем, есть ли изображения
+    if apartment.images:
         for image in apartment.images:
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], image)
             if os.path.exists(image_path):
                 try:
-                    os.remove(image_path)  # Удаляем файл
+                    os.remove(image_path)
                 except Exception as e:
                     flash(f"Ошибка удаления файла {image}: {e}", "error")
 
-    # Удаление записи из базы данных
     db.session.delete(apartment)
     db.session.commit()
     flash("Квартира и связанные фотографии успешно удалены!", "success")
@@ -229,26 +217,22 @@ def add_apartment():
             type=request.form.get("type")
         )
 
-        # Handle image uploads
-        image_files = request.files.getlist('images')  # Get the list of files
+        image_files = request.files.getlist('images')
         image_paths = []
 
         for image in image_files:
             if len(image_paths) >= 6:
-                break  # Прерываем цикл, если уже сохранено 6 файлов
+                break
 
             if image and allowed_file(image.filename):
-                # Создаём уникальное имя файла
-                ext = os.path.splitext(image.filename)[1]  # Получаем расширение файла
-                unique_filename = f"{uuid.uuid4().hex}{ext}"  # Генерируем уникальное имя
+                ext = os.path.splitext(image.filename)[1]
+                unique_filename = f"{uuid.uuid4().hex}{ext}"
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
 
-                # Сохраняем файл
                 image.save(filepath)
-                image_paths.append(unique_filename)  # Сохраняем только имя файла
+                image_paths.append(unique_filename)
 
-        # Save image paths to the database (up to 6 images)
-        new_apartment.images = image_paths[:6]  # Limit to 6 images
+        new_apartment.images = image_paths[:6]
         db.session.add(new_apartment)
         db.session.commit()
 
@@ -259,7 +243,7 @@ def add_apartment():
 
 @app.route("/logout")
 def logout():
-    session.pop('username', None)  # Удаляем пользователя из сессии
+    session.pop('username', None)
     flash("Вы вышли из системы.", "success")
     return redirect(url_for("dashboard"))
 

@@ -9,7 +9,6 @@
 <body>
   <div class="Slide1691">
     <div class="Group2">
-      <!-- Левая панель вкладок -->
       <div class="VkladkiLevo">
         <button class="KlientBox">
           <div class="LevoKlient">Клиенты</div>
@@ -29,10 +28,7 @@
             </a>
         {% endif %}
       </div>
-
-      <!-- Основное содержимое -->
       <div class="MainContent">
-        <!-- Заголовок с логотипом и поиском -->
         <div class="Header">
           <div class="Logo">LOGO</div>
           <div class="Poisk">
@@ -56,10 +52,8 @@
           <img src="{{ url_for('static', filename='icon-person.svg') }}" alt="Личный кабинет">
               <div class="dropdown">
                 {% if session.get('username') %}
-                    <!-- Если пользователь авторизован -->
                     <a href="{{ url_for('logout') }}">Выход</a>
                 {% else %}
-                    <!-- Если пользователь не авторизован -->
                     <form method="POST" action="{{ url_for('login') }}">
                         <input type="text" name="username" placeholder="Логин" required>
                         <input type="password" name="password" placeholder="Пароль" required>
@@ -70,8 +64,6 @@
               </div>
           </div>
         </div>
-
-        <!-- Основное окно с вкладками -->
         <div class="OsnovnoeOkno">
           <div class="OknUltimate"></div>
           <div class="VkladkiArenda">

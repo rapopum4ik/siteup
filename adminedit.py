@@ -1,7 +1,9 @@
+#Только для flask shell
+
 from app import db, User
 user = User.query.filter_by(username="admin").first()
 if user:
-     user.type = 'a'  # Установить тип как администратор
+     user.type = 'a'
      db.session.commit()
      print("Тип пользователя admin успешно изменён.")
 else:

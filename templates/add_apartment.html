@@ -8,12 +8,9 @@
 </head>
 <body>
     <div class="AddApartmentWrapper">
-        <!-- Заголовок -->
         <header class="AddApartmentHeader">
             <h1 class="AddApartmentTitle">Добавить квартиру</h1>
         </header>
-
-        <!-- Форма -->
         <form method="POST" class="StyledForm AddApartmentForm" enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Название" class="StyledInput" required>
             <input type="text" name="address" placeholder="Адрес" class="StyledInput" required>
@@ -24,7 +21,6 @@
                 <option value="rent">Аренда</option>
                 <option value="buy">Покупка</option>
             </select>
-            <!-- Image upload fields (up to 6 images) -->
             <input type="file" name="images" accept="image/*" multiple class="StyledInput">
             <button type="submit" class="AdminButton AddButton">Добавить</button>
         </form>
